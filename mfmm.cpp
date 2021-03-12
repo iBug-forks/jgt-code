@@ -1,7 +1,8 @@
 #include "mfmm.h"
 
-#include <iostream.h>
+#include <iostream>
 #include <math.h>
+using namespace std;
 
 #include "dqueue.h"
 #include "flags.h"
@@ -205,13 +206,13 @@ void ModifiedFastMarchingMethod::add_to_narrowband(int i,int j,int active_i,int 
        c_r = dx*gx_r + dy*gy_r;                                  //dot product img-avg-grad * distfunc-grad
        c_g = dx*gx_g + dy*gy_g;
        c_b = dx*gx_b + dy*gy_b;
-       
+
        cx /= cnt; cy /= cnt;
        float d = sqrt((cx-i)*(cx-i)+(cy-j)*(cy-j));
        c_r *= d; c_g *= d; c_b *= d;
        //!!!c *= sqrt((cx-i)*(cx-i)+(cy-j)*(cy-j));
      }
-     
+
 		                                                  //im = avg-perception of image-neighorhood
      image->r.value(i,j) = im_r/cnt + c_r;			  //c  = avg-gradient of image in direction of gradient of DT
      image->g.value(i,j) = im_g/cnt + c_g;

@@ -14,25 +14,25 @@ class STACK :                              //STACK is parametrized by a GROW_SIZ
     void Push(T);                     //Push op
     T Pop();                          //Pop  op
     T Top();                          //Returns top of stack
-    DARRAY<T, GROW_SIZE>::operator[]; //Inherited
-    DARRAY<T, GROW_SIZE>::Count;      //Inherited
-    DARRAY<T, GROW_SIZE>::Contains;   //Inherited
-    DARRAY<T, GROW_SIZE>::Flush;      //Inherited
+    using DARRAY<T, GROW_SIZE>::operator[]; //Inherited
+    using DARRAY<T, GROW_SIZE>::Count;      //Inherited
+    using DARRAY<T, GROW_SIZE>::Contains;   //Inherited
+    using DARRAY<T, GROW_SIZE>::Flush;      //Inherited
 };
 
 template <class T, int GROW_SIZE>
 inline STACK<T, GROW_SIZE>::STACK(int N) : DARRAY<T, GROW_SIZE>(N) {}
 
 template <class T, int GROW_SIZE>
-inline void STACK<T, GROW_SIZE>::Push(T t) { Add(t); }
+inline void STACK<T, GROW_SIZE>::Push(T t) { this->Add(t); }
 
 template <class T, int GROW_SIZE>
-inline T STACK<T, GROW_SIZE>::Top() { return a[n - 1]; }
+inline T STACK<T, GROW_SIZE>::Top() { return this->a[this->n - 1]; }
 
 template <class T, int GROW_SIZE>
 inline T STACK<T, GROW_SIZE>::Pop() {
-    T tmp = a[n - 1];
-    Delete(n - 1);
+    T tmp = this->a[this->n - 1];
+    this->Delete(this->n - 1);
     return tmp;
 }
 

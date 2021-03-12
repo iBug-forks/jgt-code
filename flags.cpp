@@ -1,7 +1,8 @@
 #include "flags.h"
 
-#include <iostream.h>
 #include <stdio.h>
+
+#include <iostream>
 
 #include "genrl.h"
 #include "stack.h"

@@ -1,10 +1,11 @@
-#include <fstream.h>
-#include <glut.h>
-#include <iostream.h>
+#include <fstream>
+#include <GL/glut.h>
+#include <iostream>
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+using namespace std;
 
 #include "field.h"
 #include "flags.h"

@@ -1,8 +1,9 @@
 #include "fmm.h"
 
-#include <iostream.h>
+#include <iostream>
 #include <math.h>
 #include <signal.h>
+using namespace std;
 
 #include "flags.h"
 

@@ -1,6 +1,7 @@
 #ifndef GENRL_H
 #define GENRL_H
 
+#undef INFINITY
 const float INFINITY = 1.0e7f;
 const float eps = 1.0e-6f;
 const float eps2 = eps * eps;

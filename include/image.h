@@ -1,7 +1,8 @@
 #ifndef IMAGE_H
 #define IMAGE_H
 
-#include <fstream.h>
+#include <fstream>
+using namespace std;
 
 #include "field.h"
 
@@ -90,15 +91,15 @@ IMAGE<T>* IMAGE<T>::readBMP(char* fname) {
             if (bpp == 3) //read data as RGB colors
             {
                 unsigned char R, G, B;
-                inf.get(B);
-                inf.get(G);
-                inf.get(R);
+                inf.get(reinterpret_cast<char&>(B));
+                inf.get(reinterpret_cast<char&>(G));
+                inf.get(reinterpret_cast<char&>(R));
                 *rd++ = R;
                 *gd++ = G;
                 *bd++ = B;
             } else //read data as 8-bit luminance
             {
-                inf.get(ch);
+                inf.get(reinterpret_cast<char&>(ch));
                 *rd++ = ch;
                 *gd++ = ch;
                 *bd++ = ch;

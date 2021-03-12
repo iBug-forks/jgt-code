@@ -1,12 +1,15 @@
 #ifndef FIELD_H
 #define FIELD_H
 
-#include <fstream.h>
 #include <io.h>
-#include <iostream.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "genrl.h"
+
+#include <fstream>
+#include <iostream>
+using namespace std;
 
 class FLAGS;
 
@@ -65,6 +68,8 @@ class FIELD {
     int nx, ny; //nx = ncols, ny = nrows
     T* v;
 };
+
+#include "flags.h"
 
 template <class T>
 class VFIELD {
@@ -265,7 +270,7 @@ FIELD<T>* FIELD<T>::read(char* fname) {
 }
 
 template <class T>
-FIELD<T>::FILE_TYPE FIELD<T>::fileType(char* fname) {
+typename FIELD<T>::FILE_TYPE FIELD<T>::fileType(char* fname) {
     FILE* fp = fopen(fname, "r");
     if (!fp)
         return UNKNOWN;
@@ -351,13 +356,13 @@ FIELD<T>* FIELD<T>::readBMP(char* fname) {
             if (bpp == 3) //read data as RGB 'luminance'
             {
                 unsigned char r, g, b;
-                inf.get(b);
-                inf.get(g);
-                inf.get(r);
+                inf.get(reinterpret_cast<char&>(b));
+                inf.get(reinterpret_cast<char&>(g));
+                inf.get(reinterpret_cast<char&>(r));
                 *data++ = (float(r) + float(g) + float(b)) / 3;
             } else //read data as 8-bit luminance
             {
-                inf.get(ch);
+                inf.get(reinterpret_cast<char&>(ch));
                 *data++ = ch;
             }
         }
@@ -551,11 +556,11 @@ void FIELD<T>::writePGM(char* fname) const {
     fprintf(fp, "P5 %d %d 255\n", dimX(), dimY());
     for (const T *vend = data() + dimX() * dimY(), *vptr = data(); vptr < vend; vptr++) {
         float v = ((*vptr) - m) / (M - m);
-        v = MAX(v, 0);
+        v = max(v, 0.f);
         if (v > M)
             v = 1;
         else
-            v = MIN(v, 1);
+            v = min(v, 1.f);
         buf[bb++] = (unsigned char)(int)(v * 255);
         if (bb == SIZE) {
             fwrite(buf, 1, SIZE, fp);
@@ -587,11 +592,11 @@ void FIELD<T>::writePPM(char* fname) const {
     fprintf(fp, "P6 %d %d 255\n", dimX(), dimY());
     for (const T *vend = data() + dimX() * dimY(), *vptr = data(); vptr < vend; vptr++) {
         float r, g, b, v = ((*vptr) - m) / (M - m);
-        v = max(v, 0);
+        v = max(v, 0.f);
         if (v > M) {
             r = g = b = 1;
         } else
-            v = min(v, 1);
+            v = min(v, 1.f);
         float2rgb(v, r, g, b);
 
         buf[bb++] = (unsigned char)(int)(r * 255);
